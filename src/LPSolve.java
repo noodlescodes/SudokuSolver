@@ -113,32 +113,46 @@ public class LPSolve {
 			if(VERBOSE) {
 				System.out.println("Adding predefined constraints.");
 			}
+
+			// Predefined constraints corresponds to the partially filled in sudoku:
+			// ===begin===
+			// - - - - - - - 2 -
+			// - 2 - - - - 5 - -
+			// - - 7 - - 3 4 - -
+			// 2 - - 1 - - 3 4 -
+			// 6 4 - - 8 - - 5 9
+			// - 9 5 - - 2 - - 1
+			// - - 3 4 - - 8 - -
+			// - - 9 - - - - 1 -
+			// - 1 - - - - - - -
+			// ===end===
+
 			// ---begin predefined values---
-			 addConstraint(1, 8, 2);
-			 addConstraint(2, 2, 2);
-			 addConstraint(2, 7, 5);
-			 addConstraint(3, 3, 7);
-			 addConstraint(3, 6, 3);
-			 addConstraint(3, 7, 4);
-			 addConstraint(4, 1, 2);
-			 addConstraint(4, 4, 1);
-			 addConstraint(4, 7, 3);
-			 addConstraint(4, 8, 4);
-			 addConstraint(5, 1, 6);
-			 addConstraint(5, 2, 4);
-			 addConstraint(5, 5, 8);
-			 addConstraint(5, 8, 5);
-			 addConstraint(5, 9, 9);
-			 addConstraint(6, 2, 9);
-			 addConstraint(6, 3, 5);
-			 addConstraint(6, 6, 2);
-			 addConstraint(6, 9, 1);
-			 addConstraint(7, 3, 3);
-			 addConstraint(7, 4, 4);
-			 addConstraint(7, 7, 8);
-			 addConstraint(8, 3, 9);
-			 addConstraint(8, 8, 1);
-			 addConstraint(9, 2, 1);
+			addConstraint(1, 8, 2);
+			addConstraint(2, 2, 2);
+			addConstraint(2, 7, 5);
+			addConstraint(3, 3, 7);
+			addConstraint(3, 6, 3);
+			addConstraint(3, 7, 4);
+			addConstraint(4, 1, 2);
+			addConstraint(4, 4, 1);
+			addConstraint(4, 7, 3);
+			addConstraint(4, 8, 4);
+			addConstraint(5, 1, 6);
+			addConstraint(5, 2, 4);
+			addConstraint(5, 5, 8);
+			addConstraint(5, 8, 5);
+			addConstraint(5, 9, 9);
+			addConstraint(6, 2, 9);
+			addConstraint(6, 3, 5);
+			addConstraint(6, 6, 2);
+			addConstraint(6, 9, 1);
+			addConstraint(7, 3, 3);
+			addConstraint(7, 4, 4);
+			addConstraint(7, 7, 8);
+			addConstraint(8, 3, 9);
+			addConstraint(8, 8, 1);
+			addConstraint(9, 2, 1);
 			// --- end predefined values---
 
 			if(VERBOSE) {
