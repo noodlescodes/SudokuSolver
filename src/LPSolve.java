@@ -1,4 +1,7 @@
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import lpsolve.LpSolve;
@@ -27,7 +30,7 @@ public class LPSolve {
 	public void addConstraint(int i, int j, int k) throws LpSolveException {
 		int j1;
 		int v;
-		for(int k2 = 1; k2 < Ncol; k2++) {
+		for(int k2 = 1; k2 <= Ncol; k2++) {
 			j1 = 0;
 			v = 0;
 			if(k2 == k) {
@@ -36,6 +39,16 @@ public class LPSolve {
 			colno[j1] = getIndex(i, j, k2);
 			row[j1++] = 1;
 			lp.addConstraintex(j1, row, colno, LpSolve.EQ, v);
+		}
+	}
+	
+	public static void dumpTime(long t) {
+		try {
+			PrintWriter w = new PrintWriter(new BufferedWriter(new FileWriter("timeDump.txt", true)));
+			w.println("LPSolvev: " + t);
+			w.close();
+		}
+		catch(IOException e) {
 		}
 	}
 
@@ -232,6 +245,19 @@ public class LPSolve {
 				lp.addConstraintex(j, row, colno, LpSolve.EQ, 1);
 			}
 			// ---end position filled constraints---
+			
+			if(VERBOSE) {
+				System.out.println("Beginning SOS constraints.");
+			}
+			// ---begin SOS constraints---
+//			int[] cons = new int[9];
+//			double[] weights = new double[9];
+//			for(int i = 0; i < cons.length; i++) {
+//				cons[i] = i + 1;
+//				weights[i] = 1;
+//			}
+//			lp.addSOS("11k", 1, 1, 9, cons, weights);
+			// ---end SOS constraints---
 
 			if(VERBOSE) {
 				System.out.println("Turning off build mode.");
@@ -306,12 +332,16 @@ public class LPSolve {
 
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
+		String date = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date(startTime));
+		System.out.println("Start time: " + date);
 		try {
 			new LPSolve().execute();
 		}
 		catch(LpSolveException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Total time: " + (System.currentTimeMillis() - startTime));
+		long totalTime = (System.currentTimeMillis() - startTime);
+		System.out.println("Total time: " + totalTime);
+		dumpTime(totalTime);
 	}
 }
