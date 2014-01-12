@@ -28,38 +28,35 @@ public class LPSolvev2 {
 		return Ncol2 * (i - 1) + Ncol * (j - 1) + k;
 	}
 
-//	public void addConstraint(int i, int j, int k) throws LpSolveException {
-//		int j1;
-//		int v;
-//		int type;
-//		for(int k2 = 1; k2 <= Ncol; k2++) {
-//			j1 = 0;
-//			v = 0;
-//			type = LpSolve.LE;
-//			if(k2 == k) {
-//				v = 1;
-//				type = LpSolve.GE;
-//			}
-//			colno[j1] = getIndex(i, j, k2);
-//			row[j1++] = 1;
-//			lp.addConstraintex(j1, row, colno, type, v);
-//		}
-//	}
-	
+	// public void addConstraint(int i, int j, int k) throws LpSolveException {
+	// int j1;
+	// int v;
+	// int type;
+	// for(int k2 = 1; k2 <= Ncol; k2++) {
+	// j1 = 0;
+	// v = 0;
+	// type = LpSolve.LE;
+	// if(k2 == k) {
+	// v = 1;
+	// type = LpSolve.GE;
+	// }
+	// colno[j1] = getIndex(i, j, k2);
+	// row[j1++] = 1;
+	// lp.addConstraintex(j1, row, colno, type, v);
+	// }
+	// }
+
 	public void addConstraint(int i, int j, int k) throws LpSolveException {
-		int j1;
 		double low, up;
 		for(int k2 = 1; k2 <= Ncol; k2++) {
-			j1 = 0;
 			low = 0;
-			up = 0.5;
+			up = 0;
 			if(k2 == k) {
-				low = 0.5;
-				up = 1;
+				low = 1;
+				up = lp.getInfinite();
+				// up = 1; // I'd like to be able to do this.
 			}
-			colno[j1] = getIndex(i, j, k2);
-			row[j1++] = 1;
-			lp.setBounds(colno[0], low, up);
+			lp.setBounds(getIndex(i, j, k2), low, up);
 		}
 	}
 
@@ -78,7 +75,7 @@ public class LPSolvev2 {
 			PrintWriter w = new PrintWriter("dump2.txt");
 
 			for(int j = 0; j < Ncol3; j++) {
-				w.println(lp.getColName(j + 1) + ": " + row[j]);
+				w.println(lp.getOrigcolName(j + 1) + ": " + row[j]);
 			}
 
 			w.close();
@@ -142,79 +139,79 @@ public class LPSolvev2 {
 				System.out.println("Adding predefined constraints.");
 			}
 
-			 // Predefined constraints corresponds to the partially filled in sudoku:
-			 // ===begin===
-			 // - - - - - - - 2 -
-			 // - 2 - - - - 5 - -
-			 // - - 7 - - 3 4 - -
-			 // 2 - - 1 - - 3 4 -
-			 // 6 4 - - 8 - - 5 9
-			 // - 9 5 - - 2 - - 1
-			 // - - 3 4 - - 8 - -
-			 // - - 9 - - - - 1 -
-			 // - 1 - - - - - - -
-			 // ===end===
-			
-			 // ---begin predefined values---
-			 addConstraint(1, 8, 2);
-			 addConstraint(2, 2, 2);
-			 addConstraint(2, 7, 5);
-			 addConstraint(3, 3, 7);
-			 addConstraint(3, 6, 3);
-			 addConstraint(3, 7, 4);
-			 addConstraint(4, 1, 2);
-			 addConstraint(4, 4, 1);
-			 addConstraint(4, 7, 3);
-			 addConstraint(4, 8, 4);
-			 addConstraint(5, 1, 6);
-			 addConstraint(5, 2, 4);
-			 addConstraint(5, 5, 8);
-			 addConstraint(5, 8, 5);
-			 addConstraint(5, 9, 9);
-			 addConstraint(6, 2, 9);
-			 addConstraint(6, 3, 5);
-			 addConstraint(6, 6, 2);
-			 addConstraint(6, 9, 1);
-			 addConstraint(7, 3, 3);
-			 addConstraint(7, 4, 4);
-			 addConstraint(7, 7, 8);
-			 addConstraint(8, 3, 9);
-			 addConstraint(8, 8, 1);
-			 addConstraint(9, 2, 1);
-			 // --- end predefined values---
+			// Predefined constraints corresponds to the partially filled in sudoku:
+			// ===begin===
+			// - - - - - - - 2 -
+			// - 2 - - - - 5 - -
+			// - - 7 - - 3 4 - -
+			// 2 - - 1 - - 3 4 -
+			// 6 4 - - 8 - - 5 9
+			// - 9 5 - - 2 - - 1
+			// - - 3 4 - - 8 - -
+			// - - 9 - - - - 1 -
+			// - 1 - - - - - - -
+			// ===end===
 
-//			// constraints corresponds to the partially filled in sudoku:
-//			// ===begin===
-//			// - - - - - - - 1 -
-//			// 4 - - - - - - - -
-//			// - 2 - - - - - - -
-//			// - - - - 5 - 4 - 7
-//			// - - 8 - - - 3 - -
-//			// - - 1 - 9 - - - -
-//			// 3 - - 4 - - 2 - -
-//			// - 5 - 1 - - - - -
-//			// - - - 8 - 6 - - -
-//			// ===end===
-//
-//			// ---begin predefined values---
-//			addConstraint(1, 8, 1);
-//			addConstraint(2, 1, 4);
-//			addConstraint(3, 2, 2);
-//			addConstraint(4, 5, 5);
-//			addConstraint(4, 7, 4);
-//			addConstraint(4, 9, 7);
-//			addConstraint(5, 3, 8);
-//			addConstraint(5, 7, 3);
-//			addConstraint(6, 3, 1);
-//			addConstraint(6, 5, 9);
-//			addConstraint(7, 1, 3);
-//			addConstraint(7, 4, 4);
-//			addConstraint(7, 7, 2);
-//			addConstraint(8, 2, 5);
-//			addConstraint(8, 4, 1);
-//			addConstraint(9, 4, 8);
-//			addConstraint(9, 6, 6);
-//			// --- end predefined values---
+			// ---begin predefined values---
+			addConstraint(1, 8, 2);
+			addConstraint(2, 2, 2);
+			addConstraint(2, 7, 5);
+			addConstraint(3, 3, 7);
+			addConstraint(3, 6, 3);
+			addConstraint(3, 7, 4);
+			addConstraint(4, 1, 2);
+			addConstraint(4, 4, 1);
+			addConstraint(4, 7, 3);
+			addConstraint(4, 8, 4);
+			addConstraint(5, 1, 6);
+			addConstraint(5, 2, 4);
+			addConstraint(5, 5, 8);
+			addConstraint(5, 8, 5);
+			addConstraint(5, 9, 9);
+			addConstraint(6, 2, 9);
+			addConstraint(6, 3, 5);
+			addConstraint(6, 6, 2);
+			addConstraint(6, 9, 1);
+			addConstraint(7, 3, 3);
+			addConstraint(7, 4, 4);
+			addConstraint(7, 7, 8);
+			addConstraint(8, 3, 9);
+			addConstraint(8, 8, 1);
+			addConstraint(9, 2, 1);
+			// --- end predefined values---
+
+			// // constraints corresponds to the partially filled in sudoku:
+			// // ===begin===
+			// // - - - - - - - 1 -
+			// // 4 - - - - - - - -
+			// // - 2 - - - - - - -
+			// // - - - - 5 - 4 - 7
+			// // - - 8 - - - 3 - -
+			// // - - 1 - 9 - - - -
+			// // 3 - - 4 - - 2 - -
+			// // - 5 - 1 - - - - -
+			// // - - - 8 - 6 - - -
+			// // ===end===
+			//
+			// // ---begin predefined values---
+			// addConstraint(1, 8, 1);
+			// addConstraint(2, 1, 4);
+			// addConstraint(3, 2, 2);
+			// addConstraint(4, 5, 5);
+			// addConstraint(4, 7, 4);
+			// addConstraint(4, 9, 7);
+			// addConstraint(5, 3, 8);
+			// addConstraint(5, 7, 3);
+			// addConstraint(6, 3, 1);
+			// addConstraint(6, 5, 9);
+			// addConstraint(7, 1, 3);
+			// addConstraint(7, 4, 4);
+			// addConstraint(7, 7, 2);
+			// addConstraint(8, 2, 5);
+			// addConstraint(8, 4, 1);
+			// addConstraint(9, 4, 8);
+			// addConstraint(9, 6, 6);
+			// // --- end predefined values---
 
 			if(VERBOSE) {
 				System.out.println("Beginning position filled constraints.");
@@ -320,7 +317,7 @@ public class LPSolvev2 {
 			if(VERBOSE) {
 				System.out.println("Presolving.");
 			}
-			lp.setPresolve(LpSolve.PRESOLVE_ROWS, lp.getPresolveloops());
+			lp.setPresolve(LpSolve.PRESOLVE_ROWS | LpSolve.PRESOLVE_BOUNDS, lp.getPresolveloops());
 
 			if(VERBOSE) {
 				System.out.println("Starting to solve the model. This may take a while.");
@@ -345,7 +342,7 @@ public class LPSolvev2 {
 			if(OUTPUT) {
 				System.out.println("Objective value:" + lp.getObjective());
 				for(j = 0; j < Ncol3; j++) {
-					System.out.println(lp.getColName(j + 1) + ": " + row[j]);
+					System.out.println(lp.getOrigcolName(j + 1) + ": " + row[j]);
 				}
 			}
 			dumpToFile();
