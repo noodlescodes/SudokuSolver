@@ -45,7 +45,7 @@ public class MOLS {
 	public static void dumpTime(long t) {
 		try {
 			PrintWriter w = new PrintWriter(new BufferedWriter(new FileWriter("timeDumpMOLS.txt", true)));
-			w.println("LPSolvev2: " + t);
+			w.println("MOLS: " + t);
 			w.close();
 		}
 		catch(IOException e) {
@@ -76,13 +76,13 @@ public class MOLS {
 						for(int i0 = i; i0 <= Ncol; i0++) {
 							for(int j0 = 1; j0 <= Ncol; j0++) {
 								if(i != i0 && j != j0) {
-									colno[j1] = getIndex(1, i, j, k);
+									colno[j1] = getIndex(a, i, j, k);
 									row[j1++] = 1;
-									colno[j1] = getIndex(2, i, j, m);
+									colno[j1] = getIndex(b, i, j, m);
 									row[j1++] = 1;
-									colno[j1] = getIndex(1, i0, j0, k);
+									colno[j1] = getIndex(a, i0, j0, k);
 									row[j1++] = 1;
-									colno[j1] = getIndex(2, i0, j0, m);
+									colno[j1] = getIndex(b, i0, j0, m);
 									row[j1++] = 1;
 									lp.addConstraintex(j1, row, colno, LpSolve.LE, 3);
 									j1 = 0;
@@ -100,10 +100,10 @@ public class MOLS {
 		int j = 0;
 		String[] prefixes = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"};
 
-		Ncol = 3; // number of columns
+		Ncol = 5; // Order of Latin Squares
 		Ncol2 = Ncol * Ncol;
 		Ncol3 = Ncol2 * Ncol;
-		Nsquares = 2;
+		Nsquares = 3; // Number of MOLS looking for
 		int[] cons = new int[Ncol];
 
 		colno = new int[Ncol3 * Nsquares];
@@ -160,14 +160,34 @@ public class MOLS {
 			addBounds(1, 1, 1, 1);
 			addBounds(1, 1, 2, 2);
 			addBounds(1, 1, 3, 3);
-//			addBounds(1, 1, 4, 4);
+			addBounds(1, 1, 4, 4);
+			addBounds(1, 1, 5, 5);
+//			addBounds(1, 1, 6, 6);
+//			addBounds(1, 1, 7, 7);
+//			addBounds(1, 1, 8, 8);
 			addBounds(1, 2, 1, 2);
 			addBounds(1, 3, 1, 3);
-//			addBounds(1, 4, 1, 4);
+			addBounds(1, 4, 1, 4);
+			addBounds(1, 5, 1, 5);
+//			addBounds(1, 6, 1, 6);
+//			addBounds(1, 7, 1, 7);
+//			addBounds(1, 8, 1, 8);
 			addBounds(2, 1, 1, 1);
 			addBounds(2, 1, 2, 2);
 			addBounds(2, 1, 3, 3);
-//			addBounds(2, 1, 4, 4);
+			addBounds(2, 1, 4, 4);
+			addBounds(2, 1, 5, 5);
+//			addBounds(2, 1, 6, 6);
+//			addBounds(2, 1, 7, 7);
+//			addBounds(2, 1, 8, 8);
+			addBounds(3, 1, 1, 1);
+			addBounds(3, 1, 2, 2);
+			addBounds(3, 1, 3, 3);
+			addBounds(3, 1, 4, 4);
+			addBounds(3, 1, 5, 5);
+//			addBounds(3, 1, 6, 6);
+//			addBounds(3, 1, 7, 7);
+//			addBounds(3, 1, 8, 8);
 			// --- end predefined values---
 
 			if(VERBOSE) {
@@ -271,8 +291,8 @@ public class MOLS {
 			lp.writeLp("modelMOLS.lp");
 
 			// set message type
-			// lp.setVerbose(LpSolve.NORMAL);
-			lp.setVerbose(LpSolve.IMPORTANT);
+			lp.setVerbose(LpSolve.NORMAL);
+			// lp.setVerbose(LpSolve.IMPORTANT);
 
 			// ---begin solving---
 			if(VERBOSE) {
