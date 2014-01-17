@@ -232,7 +232,7 @@ public class LPSolvev2 {
 			}
 			// ---begin SOS constraints---
 
-			// ---begin only one number per square && square filled---
+			// ---begin only one number per square---
 			for(int i = 0; i < cons.length; i++) {
 				for(int j1 = 0; j1 < cons.length; j1++) {
 					for(int k = 0; k < cons.length; k++) {
@@ -296,7 +296,7 @@ public class LPSolvev2 {
 			j = 0;
 
 			colno[j] = 1; // first column
-			row[j++] = 0; // value of first colum
+			row[j++] = 0; // value of first column
 
 			// set the objective function in lpsolve
 			lp.setObjFnex(j, row, colno);
@@ -312,6 +312,7 @@ public class LPSolvev2 {
 			lp.writeLp("model2.lp");
 
 			// set message type
+			// lp.setVerbose(LpSolve.NORMAL);
 			lp.setVerbose(LpSolve.IMPORTANT);
 
 			if(VERBOSE) {
@@ -339,11 +340,15 @@ public class LPSolvev2 {
 		// ---begin output---
 		if(ret == 0) {
 			lp.getVariables(row);
+			// row = lp.getPtrVariables();
 			if(OUTPUT) {
-				System.out.println("Objective value:" + lp.getObjective());
-				for(j = 0; j < Ncol3; j++) {
-					System.out.println(lp.getOrigcolName(j + 1) + ": " + row[j]);
+				for(j = 1; j <= 1 + row.length; j++) {
+					// System.out.println(lp.getColName(j) + ": " + lp.getNameindex(lp.getColName(j), false));
+					// System.out.println(lp.getColName(j));
+					// int index = lp.getNameindex(lp.getColName(j), false);
+					// System.out.println(lp.getOrigcolName(index) + ": " + lp.getVarPrimalresult(index));
 				}
+				System.out.println(row.length);
 			}
 			dumpToFile();
 		}
