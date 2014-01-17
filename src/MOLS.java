@@ -278,7 +278,7 @@ public class MOLS {
 			if(VERBOSE) {
 				System.out.println("Presolving.");
 			}
-			// lp.setPresolve(LpSolve.PRESOLVE_ROWS | LpSolve.PRESOLVE_BOUNDS, lp.getPresolveloops());
+			lp.setPresolve(LpSolve.PRESOLVE_BOUNDS, lp.getPresolveloops());
 
 			if(VERBOSE) {
 				System.out.println("Starting to solve the model. This may take a while.");
