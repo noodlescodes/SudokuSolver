@@ -4,6 +4,8 @@ If I get around to it, I plan to add a method to parse in the predefined constra
 
 In LPSolve2.java, there is a commented out sudoku that has 17 initial constraints. It is considered computationally hard to solve due to the lack of initial conditions. This can be solved in just over an hour on moderate hardware with LPSolve2.java. Feel free to race it!
 
+Added a program to find Mutually Orthogonal Latin Squares (MOLS). Currently hasn't been tested due to how long it takes to run (finding MOLS isn't easy).
+
 A program that can be used to solve Sudoku's of size 9x9.
 
 Depends on lp_solve. [Found here](http://lpsolve.sourceforge.net/5.5/).
